@@ -120,7 +120,7 @@ $(document).ready(function() {
 function addImages(text) {
   var regexpText = 'https?://.+?\\.(jpg|png|gif)';
   return text.replace(new RegExp(regexpText, 'gi'), function(match) {
-    return match+"<img style='padding-left: 20px; width: 200px;' src='" + match + "' />";
+    return match+"<img style='margin-left: 20px; width: 200px;' src='" + match + "' />";
   });
 }
 
