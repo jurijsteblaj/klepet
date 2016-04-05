@@ -25,7 +25,8 @@ function procesirajVnosUporabnika(klepetApp, socket) {
   } else {
     sporocilo = filtirirajVulgarneBesede(sporocilo);
     klepetApp.posljiSporocilo(trenutniKanal, sporocilo);
-    $('#sporocila').append(divElementEnostavniTekst(sporocilo));
+    var novElement = divElementEnostavniTekst(sporocilo);
+    $('#sporocila').append(novElement.html(addVideos(novElement.html())));
     $('#sporocila').scrollTop($('#sporocila').prop('scrollHeight'));
   }
 
@@ -115,6 +116,17 @@ $(document).ready(function() {
   
   
 });
+
+function addVideos(text) {
+  //var regexpText = 'https://www.youtube.com/watch?v=.+?\\b';
+  var regexpText = 'https://www\\.youtube\\.com/watch\\?v=.+?\\b';
+  return text.replace(new RegExp(regexpText, 'g'), function(match) {
+    console.log(match);
+    return match+"<iframe src='https://www.youtube.com/embed/" +
+        match.slice(match.indexOf("=") + 1) +
+        "' allowfullscreen style='width: 200px; height: 150px; margin-left: 20px;'></iframe>";
+  });
+}
 
 function dodajSmeske(vhodnoBesedilo) {
   var preslikovalnaTabela = {
