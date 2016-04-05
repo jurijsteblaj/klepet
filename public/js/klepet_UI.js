@@ -76,7 +76,7 @@ $(document).ready(function() {
 
   socket.on('sporocilo', function (sporocilo) {
     var novElement = divElementEnostavniTekst(sporocilo.besedilo);
-    $('#sporocila').append(novElement);
+    $('#sporocila').append(novElement.html(addVideos(novElement.html())));
   });
   
   socket.on('kanali', function(kanali) {
@@ -118,7 +118,6 @@ $(document).ready(function() {
 });
 
 function addVideos(text) {
-  //var regexpText = 'https://www.youtube.com/watch?v=.+?\\b';
   var regexpText = 'https://www\\.youtube\\.com/watch\\?v=.+?\\b';
   return text.replace(new RegExp(regexpText, 'g'), function(match) {
     console.log(match);
