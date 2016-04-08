@@ -119,12 +119,16 @@ $(document).ready(function() {
 
 function addVideos(text) {
   var regexpText = 'https://www\\.youtube\\.com/watch\\?v=.+?\\b';
-  return text.replace(new RegExp(regexpText, 'g'), function(match) {
-    console.log(match);
-    return match+"<iframe src='https://www.youtube.com/embed/" +
-        match.slice(match.indexOf("=") + 1) +
-        "' allowfullscreen style='width: 200px; height: 150px; margin-left: 20px;'></iframe>";
-  });
+  var matches = text.match(new RegExp(regexpText, 'gi'));
+  if (matches != null && matches.length > 0) {
+    
+    text += '<div>';
+    for (var i = 0; i < matches.length; i++){console.log(matches[i]);
+      text += "<iframe src='https://www.youtube.com/embed/" + matches[i].slice(matches[i].indexOf("=") + 1) +
+        "' allowfullscreen style='width: 200px; height: 150px; margin-left: 20px;'></iframe>";}
+    text += '</div>';
+  }
+  return text;
 }
 
 function dodajSmeske(vhodnoBesedilo) {
