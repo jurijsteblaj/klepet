@@ -118,10 +118,15 @@ $(document).ready(function() {
 });
 
 function addImages(text) {
-  var regexpText = 'https?://.+?\\.(jpg|png|gif)';
-  return text.replace(new RegExp(regexpText, 'gi'), function(match) {
-    return match+"<img style='margin-left: 20px; width: 200px;' src='" + match + "' />";
-  });
+  var regexpText = 'https?://\\S+?\\.(jpg|png|gif)';
+  var matches = text.match(new RegExp(regexpText, 'gi'));
+  if (matches != null && matches.length > 0) {
+    text += '<div>';
+    for (var i = 0; i < matches.length; i++)
+      text += "<img style='margin-left: 20px; width: 200px;' src='" + matches[i] + "' />";
+    text += '</div>';
+  }
+  return text;
 }
 
 function dodajSmeske(vhodnoBesedilo) {
