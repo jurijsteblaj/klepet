@@ -26,7 +26,7 @@ function procesirajVnosUporabnika(klepetApp, socket) {
     sporocilo = filtirirajVulgarneBesede(sporocilo);
     klepetApp.posljiSporocilo(trenutniKanal, sporocilo);
     var novElement = divElementEnostavniTekst(sporocilo);
-    $('#sporocila').append(novElement.html(addImages(novElement.html())));
+    $('#sporocila').append(novElement.html(addVideos(addImages(novElement.html()))));
     $('#sporocila').scrollTop($('#sporocila').prop('scrollHeight'));
   }
 
@@ -76,7 +76,7 @@ $(document).ready(function() {
 
   socket.on('sporocilo', function (sporocilo) {
     var novElement = divElementEnostavniTekst(sporocilo.besedilo);
-    $('#sporocila').append(novElement.html(addImages(novElement.html())));
+    $('#sporocila').append(novElement.html(addVideos(addImages(novElement.html()))));
   });
   
   socket.on('kanali', function(kanali) {
@@ -117,6 +117,7 @@ $(document).ready(function() {
   
 });
 
+
 function addImages(text) {
   var regexpText = 'https?://\\S+?\\.(jpg|png|gif)';
   var matches = text.match(new RegExp(regexpText, 'gi'));
@@ -124,6 +125,20 @@ function addImages(text) {
     text += '<div>';
     for (var i = 0; i < matches.length; i++)
       text += "<img style='margin-left: 20px; width: 200px;' src='" + matches[i] + "' />";
+    text += '</div>';
+  }
+  return text;
+}
+
+function addVideos(text) {
+  var regexpText = 'https://www\\.youtube\\.com/watch\\?v=.+?\\b';
+  var matches = text.match(new RegExp(regexpText, 'gi'));
+  if (matches != null && matches.length > 0) {
+    
+    text += '<div>';
+    for (var i = 0; i < matches.length; i++){console.log(matches[i]);
+      text += "<iframe src='https://www.youtube.com/embed/" + matches[i].slice(matches[i].indexOf("=") + 1) +
+        "' allowfullscreen style='width: 200px; height: 150px; margin-left: 20px;'></iframe>";}
     text += '</div>';
   }
   return text;
